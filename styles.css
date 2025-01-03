@@ -1,0 +1,189 @@
+/* Colors */
+:root {
+  --red: hsl(14, 86%, 42%);
+  --green: hsl(159, 69%, 38%);
+  --rose-50: hsl(20, 50%, 98%);
+  --rose-100: hsl(13, 31%, 94%);
+  --rose-300: hsl(14, 25%, 72%);
+  --rose-400: hsl(7, 20%, 60%);
+  --rose-500: hsl(12, 20%, 44%);
+  --rose-900: hsl(14, 65%, 9%);
+  --black: #000;
+  --white: #fff;
+  --spacer-50: 4px;
+  --spacer-100: 8px;
+  --spacer-150: 12px;
+  --spacer-200: 16px;
+  --spacer-300: 24px;
+  --spacer-400: 32px;
+  --spacer-500: 40px;
+  --spacer-1100: 88px;
+}
+
+/* Typography */
+body {
+  font-family: "Red Hat Text", sans-serif;
+  color: var(--rose-900);
+}
+
+.text-preset-1 {
+  font-size: 40px;
+  line-height: 1.2;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+.text-preset-2 {
+  font-size: 24px;
+  line-height: 1.25;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+.text-preset-3 {
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0px;
+  font-weight: 600;
+}
+
+.text-preset-4 {
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0px;
+  font-weight: 400;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+/* Reset */
+/* reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4 {
+  line-height: 1.2;
+}
+
+body,
+h1,
+h2,
+h3,
+p,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul[class],
+ol[class] {
+  list-style: none;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* utility */
+.flow-content > * + * {
+  margin-top: var(--flow-space, 1.5rem);
+}
+
+.split {
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Layout */
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background-color: var(--rose-50);
+}
+
+.main {
+  margin: var(--spacer-300);
+}
+
+header {
+  margin-bottom: var(--spacer-400);
+}
+
+/* Components */
+.button {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--spacer-100);
+  place-items: center;
+  padding: var(--spacer-150) var(--spacer-300);
+  border-radius: 2rem;
+  background-color: var(--white);
+  border: 1px solid var(--rose-400);
+  cursor: pointer;
+  margin: 0 auto;
+  margin-top: -1.5rem;
+  z-index: 2;
+  position: relative;
+}
+
+/* Product */
+.product picture img {
+  border-radius: var(--spacer-100);
+}
+.product__category {
+  color: var(--rose-500);
+}
+.product__price {
+  color: var(--red);
+}
+
+@media (min-width: 40rem) {
+  .main {
+    margin: var(--spacer-500);
+  }
+  .products {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--spacer-300);
+  }
+  .product {
+    margin-bottom: var(--spacer-1100);
+  }
+  .product picture img {
+    height: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
+  }
+}
+@media (min-width: 75rem) {
+  .container {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacer-400);
+    max-width: 75rem;
+  }
+  .products {
+    max-width: 48rem;
+  }
+}/*# sourceMappingURL=styles.css.map */

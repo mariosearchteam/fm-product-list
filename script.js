@@ -1,91 +1,99 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const addToCartButtons = document.querySelectorAll(".addToCart");
   const cartCount = document.querySelector(".cartCount");
   const cartItemsContainer = document.querySelector(".cart__items");
   const totalContainer = document.querySelector(".total");
+  const cartWrapper = document.querySelector(".cart__wrapper");
+  const cartEmptyWrapper = document.querySelector(".cart__empty");
 
-  const cart = {}; // Objekt zur Speicherung der Produkte im Warenkorb
+  const cart = {}; // Cart-Data
 
-  addToCartButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-      const productId = this.dataset.id;
-      const productName =
-        this.closest(".product").querySelector("h2").innerText;
-      const productPrice = parseFloat(
-        this.closest(".product").querySelector(".product__price span").innerText
-      );
+  document.body.addEventListener("click", function (e) {
+    const target = e.target;
 
+    // Add to Cart Button
+    if (target.classList.contains("addToCart")) {
+      const productId = target.dataset.id;
+      const product = getProductData(target);
+      toggleQuantityContainer(productId, true);
+      updateCart(productId, product, 1);
       const quantityContainer = document.querySelector(
         `.quantity-container[data-id='${productId}']`
       );
+      quantityContainer.querySelector(".quantity-input").value = 1;
+    }
 
-      // Button verstecken und Mengensteuerung anzeigen
-      this.style.display = "none";
-      quantityContainer.style.display = "flex";
+    // Increase/Decrease Button
+    if (target.classList.contains("quantity-control")) {
+      const action = target.dataset.action;
+      const container = target.closest(".quantity-container");
+      const input = container.querySelector(".quantity-input");
+      const productId = container.dataset.id;
+      let quantity = parseInt(input.value);
 
-      // Warenkorb-Anzahl erhöhen
-      let currentCount = parseInt(cartCount.innerText);
-      cartCount.innerText = currentCount + 1;
+      quantity =
+        action === "increase" ? quantity + 1 : Math.max(0, quantity - 1);
+      input.value = quantity;
 
-      // Produkt zum Warenkorb hinzufügen
-      if (!cart[productId]) {
-        cart[productId] = {
-          name: productName,
-          price: productPrice,
-          quantity: 1,
-        };
-        addCartItem(productId);
-      } else {
-        cart[productId].quantity++;
+      updateCart(productId, null, quantity);
+
+      if (quantity === 0) {
+        toggleQuantityContainer(productId, false);
       }
+    }
 
-      updateCartItem(productId);
-      updateCartTotal();
-    });
+    // Remove from Cart Button
+    if (target.classList.contains("removeCartItem")) {
+      const productId = target.dataset.id;
+      toggleQuantityContainer(productId, false);
+      updateCart(productId, null, 0);
+    }
+
+    // Empty Card Image toggle
+    if (parseInt(cartCount.innerText) === 0) {
+      cartWrapper.style.display = "none";
+      cartEmptyWrapper.style.display = "block";
+    } else {
+      cartWrapper.style.display = "block";
+      cartEmptyWrapper.style.display = "none";
+    }
   });
 
-  // Event für Menge ändern
-  document.querySelectorAll(".quantity-container button").forEach((control) => {
-    control.addEventListener("click", function () {
-      const action = this.dataset.action;
-      const input = this.parentNode.querySelector(".quantity-input");
-      const productId = this.parentNode.dataset.id;
-      const addToCartButton = document.querySelector(
-        `.addToCart[data-id='${productId}']`
-      );
+  function getProductData(button) {
+    const productElement = button.closest(".product");
+    return {
+      name: productElement.querySelector("h2").innerText,
+      price: parseFloat(
+        productElement.querySelector(".product__price span").innerText
+      ),
+    };
+  }
 
-      let value = parseInt(input.value);
+  function toggleQuantityContainer(id, show) {
+    const addToCartButton = document.querySelector(
+      `.addToCart[data-id='${id}']`
+    );
+    const quantityContainer = document.querySelector(
+      `.quantity-container[data-id='${id}']`
+    );
+    addToCartButton.style.display = show ? "none" : "flex";
+    quantityContainer.style.display = show ? "flex" : "none";
+  }
 
-      if (action === "increase") {
-        value++;
-      } else if (action === "decrease" && value > 0) {
-        value--;
+  function updateCart(id, product, quantity) {
+    if (quantity === 0) {
+      delete cart[id];
+      removeCartItem(id);
+    } else {
+      if (!cart[id]) {
+        cart[id] = { ...product, quantity: 0 };
+        addCartItem(id);
       }
-
-      input.value = value;
-
-      // Sync cart count
-      let currentCount = parseInt(cartCount.innerText);
-      if (action === "increase") {
-        cartCount.innerText = currentCount + 1;
-      } else if (action === "decrease") {
-        cartCount.innerText = currentCount - 1;
-      }
-
-      // Wenn der Zähler 0 erreicht, zurück auf den Add-to-Cart-Button wechseln
-      if (value === 0) {
-        this.parentNode.style.display = "none";
-        addToCartButton.style.display = "flex";
-        delete cart[productId];
-        removeCartItem(productId);
-      } else {
-        cart[productId].quantity = value;
-        updateCartItem(productId);
-      }
-
-      updateCartTotal();
-    });
-  });
+      cart[id].quantity = quantity;
+      updateCartItem(id);
+    }
+    updateCartCount();
+    updateCartTotal();
+  }
 
   function addCartItem(id) {
     const item = cart[id];
@@ -108,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
         <div class="cart__item__col">
-            <button class="removeCartItem" data-id="${id}"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 10 10"><path fill="#CAAFA7" d="M8.375 9.375 5 6 1.625 9.375l-1-1L4 5 .625 1.625l1-1L5 4 8.375.625l1 1L6 5l3.375 3.375-1 1Z"/></svg></button>
+          <button class="removeCartItem" data-id="${id}"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 10 10"><path fill="#CAAFA7" d="M8.375 9.375 5 6 1.625 9.375l-1-1L4 5 .625 1.625l1-1L5 4 8.375.625l1 1L6 5l3.375 3.375-1 1Z"/></svg></button>
         </div>
       </div>
     `;
@@ -131,14 +139,27 @@ document.addEventListener("DOMContentLoaded", function () {
     const cartItem = cartItemsContainer.querySelector(
       `.cart__item[data-id='${id}']`
     );
-    cartItem.remove();
+    if (cartItem) cartItem.remove();
+    //set quantity back to 0
+    const quantityContainer = document.querySelector(
+      `.quantity-container[data-id='${id}']`
+    );
+    quantityContainer.querySelector(".quantity-input").value = 0;
+  }
+
+  function updateCartCount() {
+    const count = Object.values(cart).reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
+    cartCount.innerText = count;
   }
 
   function updateCartTotal() {
-    let total = 0;
-    Object.keys(cart).forEach((id) => {
-      total += cart[id].price * cart[id].quantity;
-    });
+    const total = Object.values(cart).reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
     totalContainer.innerText = total.toFixed(2);
   }
 });

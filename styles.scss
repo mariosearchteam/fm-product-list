@@ -141,6 +141,10 @@ header {
   margin-bottom: var(--spacer-400);
 }
 
+.products {
+  margin-bottom: var(--spacer-500);
+}
+
 /* Components */
 .button {
   display: grid;
@@ -150,12 +154,17 @@ header {
   padding: var(--spacer-150) var(--spacer-300);
   border-radius: 2rem;
   background-color: var(--white);
-  border: 1px solid var(--rose-400);
+  border: 1.5px solid var(--rose-400);
   cursor: pointer;
   margin: 0 auto;
   margin-top: -1.5rem;
   z-index: 2;
   position: relative;
+  &:hover,
+  &:active {
+    color: var(--red);
+    border: 1.5px solid var(--red);
+  }
 }
 
 /* Product */
@@ -164,6 +173,7 @@ header {
     border-radius: var(--spacer-100);
   }
   &__category {
+    margin-top: var(--spacer-200);
     color: var(--rose-500);
   }
   &__price {
@@ -204,6 +214,11 @@ header {
 .quantity-control {
   border-radius: 100%;
   border: 1px solid white;
+  &:hover,
+  &:active {
+    background-color: var(--white);
+    color: var(--red);
+  }
 }
 
 /* Cart */
@@ -212,6 +227,11 @@ header {
   background-color: var(--white);
   padding: var(--spacer-300);
   border-radius: var(--spacer-100);
+
+  &__empty {
+    text-align: center;
+    color: var(--rose-500);
+  }
   & h2 {
     color: var(--red);
     font-weight: 700;
@@ -234,9 +254,20 @@ header {
     & .removeCartItem {
       border: 1px solid var(--rose-500);
       border-radius: 100%;
+      padding: var(--spacer-50);
       background: none;
       color: var(--rose-400);
       cursor: pointer;
+      &:hover,
+      &:active {
+        border-color: var(--rose-900);
+      }
+      & svg {
+        pointer-events: none;
+      }
+      &:hover svg path {
+        fill: var(--rose-900);
+      }
     }
   }
   &__total {
@@ -250,8 +281,11 @@ header {
     background: var(--rose-50);
     border-radius: var(--spacer-100);
     padding: var(--spacer-200) var(--spacer-300);
+    & p {
+    }
   }
   &__confirm button {
+    margin-top: var(--spacer-300);
     display: block;
     border-radius: 2rem;
     background-color: var(--red);
@@ -259,6 +293,11 @@ header {
     width: 100%;
     padding: var(--spacer-200);
     border: none;
+    cursor: pointer;
+    &:hover,
+    &:active {
+      background-color: var(--rose-500);
+    }
   }
 }
 
@@ -269,13 +308,27 @@ header {
   .products {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: var(--spacer-300);
+    gap: var(--spacer-500) var(--spacer-300);
+    margin-bottom: var(--spacer-1100);
   }
   .product {
     margin-bottom: var(--spacer-1100);
     picture img {
       height: 100%;
       object-fit: cover;
+    }
+  }
+  .cart {
+    min-width: 24rem;
+    & svg {
+      display: block;
+      margin: 0 auto;
+    }
+    &__cta p {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacer-50);
     }
   }
 }

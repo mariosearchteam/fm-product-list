@@ -1,4 +1,9 @@
 /* Colors */
+@font-face {
+  font-family: "Red Hat Text";
+  src: url("./assets/fonts/RedHatText-VariableFont_wght.ttf") format("truetype");
+  font-weight: 400 600 700;
+}
 :root {
   --red: hsl(14, 86%, 42%);
   --green: hsl(159, 69%, 38%);
@@ -156,6 +161,96 @@ header {
 }
 .product__price {
   color: var(--red);
+}
+
+.quantity-container {
+  display: flex;
+  gap: 0 5px;
+  border: 1px solid var(--rose-400);
+  border-radius: 2rem;
+  padding: 12.5px var(--spacer-300);
+  max-width: 150px;
+  margin: 0 auto;
+  background-color: var(--red);
+  color: var(--white);
+  margin-top: -1.5rem;
+  z-index: 2;
+  position: relative;
+}
+
+.quantity-control,
+.quantity-input {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--white);
+  width: 50px;
+}
+
+.quantity-input {
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
+.quantity-control {
+  border-radius: 100%;
+  border: 1px solid white;
+}
+
+/* Cart */
+.cart {
+  background-color: var(--white);
+  padding: var(--spacer-300);
+  border-radius: var(--spacer-100);
+}
+.cart h2 {
+  color: var(--red);
+  font-weight: 700;
+}
+.cart__item {
+  margin-top: var(--spacer-300);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--rose-100);
+  padding-bottom: var(--spacer-300);
+}
+.cart__item__details {
+  display: flex;
+  gap: var(--spacer-200);
+  color: var(--rose-500);
+}
+.cart__item__quantity {
+  color: var(--red);
+}
+.cart__item .removeCartItem {
+  border: 1px solid var(--rose-500);
+  border-radius: 100%;
+  background: none;
+  color: var(--rose-400);
+  cursor: pointer;
+}
+.cart__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacer-300);
+}
+.cart__cta {
+  margin-top: var(--spacer-300);
+  background: var(--rose-50);
+  border-radius: var(--spacer-100);
+  padding: var(--spacer-200) var(--spacer-300);
+}
+.cart__confirm button {
+  display: block;
+  border-radius: 2rem;
+  background-color: var(--red);
+  color: var(--white);
+  width: 100%;
+  padding: var(--spacer-200);
+  border: none;
 }
 
 @media (min-width: 40rem) {

@@ -1,11 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
   const cartCount = document.querySelector(".cartCount");
   const cartItemsContainer = document.querySelector(".cart__items");
+  const modalTotal = document.querySelector(".modal__total");
+  const modalItemsContainer = document.querySelector(".modal__items");
   const totalContainer = document.querySelector(".total");
   const cartWrapper = document.querySelector(".cart__wrapper");
   const cartEmptyWrapper = document.querySelector(".cart__empty");
 
-  const cart = {}; // Cart-Data
+  let cart = {}; // Cart-Data
 
   document.body.addEventListener("click", function (e) {
     const target = e.target;
@@ -90,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       cart[id].quantity = quantity;
       updateCartItem(id);
+      updateModalItem(id);
     }
     updateCartCount();
     updateCartTotal();
@@ -98,29 +101,63 @@ document.addEventListener("DOMContentLoaded", function () {
   function addCartItem(id) {
     const item = cart[id];
     const cartItemHTML = `
-      <div class="cart__item" data-id="${id}">
-        <div class="cart__item__col">
-          <div class="cart__item__description">
-            <p class="text-preset-4 bold">${item.name}</p>
-          </div>
-          <div class="cart__item__details text-preset-4">
-            <p class="cart__item__quantity bold"><span>${
-              item.quantity
-            }</span>x</p>
-            <p class="cart__item__price">@ $<span>${item.price.toFixed(
-              2
-            )}</span></p>
-            <p class="cart__item__total bold">$<span>${(
-              item.price * item.quantity
-            ).toFixed(2)}</span></p>
-          </div>
-        </div>
-        <div class="cart__item__col">
-          <button class="removeCartItem" data-id="${id}"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 10 10"><path fill="#CAAFA7" d="M8.375 9.375 5 6 1.625 9.375l-1-1L4 5 .625 1.625l1-1L5 4 8.375.625l1 1L6 5l3.375 3.375-1 1Z"/></svg></button>
-        </div>
-      </div>
-    `;
+            <div class="cart__item" data-id="${id}">
+                <div class="cart__item__col">
+                    <div class="cart__item__description">
+                        <p class="text-preset-4 bold">${item.name}</p>
+                    </div>
+                    <div class="cart__item__details text-preset-4">
+                        <p class="cart__item__quantity bold"><span>${
+                          item.quantity
+                        }</span>x</p>
+                        <p class="cart__item__price">@ $<span>${item.price.toFixed(
+                          2
+                        )}</span></p>
+                        <p class="cart__item__total bold">$<span>${(
+                          item.price * item.quantity
+                        ).toFixed(2)}</span></p>
+                    </div>
+                </div>
+                <div class="cart__item__col">
+                    <button class="removeCartItem" data-id="${id}"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 10 10"><path fill="#CAAFA7" d="M8.375 9.375 5 6 1.625 9.375l-1-1L4 5 .625 1.625l1-1L5 4 8.375.625l1 1L6 5l3.375 3.375-1 1Z"/></svg></button>
+                </div>
+            </div>
+        `;
     cartItemsContainer.insertAdjacentHTML("beforeend", cartItemHTML);
+  }
+
+  function updateModalItem(id) {
+    const item = cart[id];
+    const modalItem = modalItemsContainer.querySelector(
+      `.modal__item[data-id='${id}']`
+    );
+    if (!modalItem) {
+      const modalItemHTML = `
+                    <div class="modal__item" data-id="${id}">
+                        <p>${item.name} - ${
+        item.quantity
+      } x $${item.price.toFixed(2)} = $${(item.price * item.quantity).toFixed(
+        2
+      )}</p>
+                    </div>
+                `;
+      modalItemsContainer.insertAdjacentHTML("beforeend", modalItemHTML);
+    } else {
+      modalItem.innerHTML = `<p>${item.name} - ${
+        item.quantity
+      } x $${item.price.toFixed(2)} = $${(item.price * item.quantity).toFixed(
+        2
+      )}</p>`;
+    }
+    updateModalTotal();
+  }
+
+  function updateModalTotal() {
+    const total = Object.values(cart).reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    modalTotal.innerText = `Total: $${total.toFixed(2)}`;
   }
 
   function updateCartItem(id) {
@@ -161,5 +198,47 @@ document.addEventListener("DOMContentLoaded", function () {
       0
     );
     totalContainer.innerText = total.toFixed(2);
+  }
+
+  function resetCart() {
+    cart = {};
+    cartItemsContainer.innerHTML = "";
+    updateCartCount();
+    updateCartTotal();
+    document.querySelectorAll(".quantity-container").forEach((container) => {
+      container.querySelector(".quantity-input").value = 0;
+      toggleQuantityContainer(container.dataset.id, false);
+    });
+  }
+
+  // Modal
+  // Get DOM Elements
+  const modal = document.querySelector("#my-modal");
+  const modalBtn = document.querySelector(".cart__confirm__button");
+  const closeBtn = document.querySelector(".close");
+
+  // Events
+  modalBtn.addEventListener("click", openModal);
+  closeBtn.addEventListener("click", () => {
+    closeModal();
+    resetCart();
+  });
+  window.addEventListener("click", outsideClick);
+
+  // Open
+  function openModal() {
+    modal.style.display = "block";
+  }
+
+  // Close
+  function closeModal() {
+    modal.style.display = "none";
+  }
+
+  // Close If Outside Click
+  function outsideClick(e) {
+    if (e.target == modal) {
+      modal.style.display = "none";
+    }
   }
 });

@@ -167,6 +167,22 @@ header {
   }
 }
 
+button.red {
+  margin-top: var(--spacer-300);
+  display: block;
+  border-radius: 2rem;
+  background-color: var(--red);
+  color: var(--white);
+  width: 100%;
+  padding: var(--spacer-200);
+  border: none;
+  cursor: pointer;
+  &:hover,
+  &:active {
+    background-color: var(--rose-500);
+  }
+}
+
 /* Product */
 .product {
   picture img {
@@ -284,21 +300,6 @@ header {
     & p {
     }
   }
-  &__confirm button {
-    margin-top: var(--spacer-300);
-    display: block;
-    border-radius: 2rem;
-    background-color: var(--red);
-    color: var(--white);
-    width: 100%;
-    padding: var(--spacer-200);
-    border: none;
-    cursor: pointer;
-    &:hover,
-    &:active {
-      background-color: var(--rose-500);
-    }
-  }
 }
 
 /* Modal */
@@ -313,55 +314,55 @@ header {
   width: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
-}
+  &__content {
+    margin: 10% auto;
+    max-width: 37rem;
+    animation-name: modalopen;
+    animation-duration: var(--modal-duration);
+  }
 
-.modal-content {
-  margin: 10% auto;
-  width: 60%;
-  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-  animation-name: modalopen;
-  animation-duration: var(--modal-duration);
-}
-
-.modal-header h2,
-.modal-footer h3 {
-  margin: 0;
-}
-
-.modal-header {
-  background: var(--modal-color);
-  padding: 15px;
-  color: #fff;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
-.modal-body {
-  padding: 10px 20px;
-  background: #fff;
-}
-
-.modal-footer {
-  background: var(--modal-color);
-  padding: 10px;
-  color: #fff;
-  text-align: center;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
-.close {
-  color: #ccc;
-  float: right;
-  font-size: 30px;
-  color: #fff;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+  &__body {
+    padding: var(--spacer-500);
+    background: #fff;
+    border-radius: var(--spacer-200);
+  }
+  &__items {
+    background: var(--rose-50);
+    border-radius: var(--spacer-100);
+    padding: var(--spacer-100);
+    margin-top: var(--spacer-300);
+  }
+  &__item {
+    border-bottom: 1px solid var(--rose-100);
+    padding: var(--spacer-150);
+    display: grid;
+    grid-template-columns: 3rem 1fr 4rem;
+    gap: var(--spacer-200);
+    align-items: center;
+    &__name {
+      color: var(--black);
+      font-weight: 700;
+    }
+    &__quantity {
+      color: var(--red);
+      font-weight: 700;
+    }
+    &__price {
+      color: var(--rose-500);
+    }
+  }
+  &__total {
+    background: var(--rose-50);
+    padding: var(--spacer-300);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__order-total {
+  }
+  & img {
+    border-radius: var(--spacer-50);
+  }
 }
 
 @keyframes modalopen {

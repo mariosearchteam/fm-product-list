@@ -89,6 +89,10 @@ function initCartApp() {
     const productId = button.dataset.id;
     toggleQuantityContainer(productId, false);
     updateCart(productId, null, 0);
+    const modalItem = dom.modalItemsContainer.querySelector(
+      `.modal__item[data-id='${productId}']`
+    );
+    if (modalItem) modalItem.remove();
   }
 
   function updateCart(productId, productData, quantity) {
@@ -288,12 +292,6 @@ function initCartApp() {
 
   function closeModal() {
     dom.modal.style.display = "none";
-  }
-
-  function outsideClick(e) {
-    if (e.target === dom.modal) {
-      closeModal();
-    }
   }
 
   // Initialer Zustand setzen

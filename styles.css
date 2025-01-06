@@ -146,7 +146,7 @@ header {
   gap: var(--spacer-100);
   place-items: center;
   padding: var(--spacer-150) var(--spacer-300);
-  border-radius: 2rem;
+  border-radius: var(--spacer-400);
   background-color: var(--white);
   border: 1.5px solid var(--rose-400);
   cursor: pointer;
@@ -163,7 +163,7 @@ header {
 button.red {
   margin-top: var(--spacer-300);
   display: block;
-  border-radius: 2rem;
+  border-radius: var(--spacer-400);
   background-color: var(--red);
   color: var(--white);
   width: 100%;
@@ -190,8 +190,8 @@ button.red:hover, button.red:active {
 .quantity-container {
   display: flex;
   gap: 0 5px;
-  border: 1px solid var(--rose-400);
-  border-radius: 2rem;
+  border: 1.5px solid var(--rose-400);
+  border-radius: var(--spacer-400);
   padding: 12.5px var(--spacer-300);
   max-width: 150px;
   margin: 0 auto;
@@ -219,7 +219,7 @@ button.red:hover, button.red:active {
 
 .quantity-control {
   border-radius: 100%;
-  border: 1px solid white;
+  border: 1px solid var(--white);
 }
 .quantity-control:hover, .quantity-control:active {
   background-color: var(--white);
